@@ -52,13 +52,8 @@ resource   "azurerm_windows_virtual_machine"   "webvm"   {
    size                    =   var.vm_size
    admin_username          =   var.vm_default_admin_username
    admin_password          =   random_string.password.result
-
-   source_image_reference   { 
-     publisher   =   var.vm_publisher
-     offer       =   var.vm_offer
      sku         =   var.vm_sku 
-     version     =   var.vm_version 
-   } 
+     
 
    os_disk   { 
      caching             =   var.vm_storage_os_disk_caching
@@ -79,14 +74,8 @@ resource   "azurerm_windows_virtual_machine"   "sqlvm"   {
    size                    =   var.vm_size
    admin_username          =   var.vm_default_admin_username
    admin_password          =   random_string.password.result
-
-   source_image_reference   { 
-     publisher   =   var.vm_publisher
-     offer       =   var.vm_offer
-     sku         =   var.vm_sku 
-     version     =   var.vm_version 
-   } 
-
+   sku         =   var.vm_sku 
+    
    os_disk   { 
      caching             =   var.vm_storage_os_disk_caching
      storage_account_type   =   var.managed_disk_type
