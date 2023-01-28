@@ -10,7 +10,7 @@ resource   "azurerm_windows_virtual_machine"   "webvm"   {
   count                    =   var.vm_count
    name                    =   "${var.hostname}${count.index + 1 }"
    location                =   var.primary_region 
-   resource_group_name     =   azurerm_resource_group.rg.name 
+   resource_group_name     =   var.resource_group_name
    network_interface_ids   =   [ azurerm_network_interface.myvm 1 nic.id ] 
    size                    =   var.vm_size
    admin_username          =   var.vm_default_admin_username
@@ -37,7 +37,7 @@ resource   "azurerm_windows_virtual_machine"   "sqlvm"   {
   count                    =   var.vm_count 
   name                    =   "${var.hostname}${count.index + 1 }"
    location                =   var.primary_region 
-   resource_group_name     =   azurerm_resource_group.rg.name 
+   resource_group_name     =   var.resource_group_name
    network_interface_ids   =   [element(azurerm_network_interface.*.id,count.index,)] 
    size                    =   var.vm_size
    admin_username          =   var.vm_default_admin_username
