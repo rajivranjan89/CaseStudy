@@ -1,3 +1,40 @@
+resource   "azurerm_virtual_network"   "myvnet"   { 
+   name   =   "my-vnet" 
+   address_space   =   [ "10.0.0.0/16" ] 
+   location   =   var.primary_region  
+   resource_group_name   =   var.resource_group_name
+ } 
+
+ resource   "azurerm_subnet"   "subnet1"   { 
+   name   =   "testSubnet" 
+   resource_group_name   =    var.resource_group_name 
+   virtual_network_name   =   azurerm_virtual_network.myvnet.name 
+   address_prefix   =   "10.0.1.0/22" 
+ } 
+
+ resource   "azurerm_public_ip"   "publicip1"   { 
+   name   =   "testpublicip1"
+   location   =   var.primary_region 
+   resource_group_name   =   var.resource_group_name
+   allocation_method   =   "Dynamic" 
+   sku   =   "Basic" 
+ } 
+
+ resource   "azurerm_network_interface"   "myvm1nic"   { 
+   name   =    "${var.nicname}${count.index + 1 }"
+   location   =   var.primary_region 
+   resource_group_name   =   var.resource_group_name
+ 
+    ip_configuration   { 
+     name   =   "ipconfig1" 
+     subnet_id   =   azurerm_subnet.testSubnet.id 
+     private_ip_address_allocation   =   "Dynamic" 
+     public_ip_address_id   =   azurerm_public_ip.testpublicip1.id 
+   } 
+ }
+
+
+
 resource "random_string" "password" {
   length = 16
   special = true
