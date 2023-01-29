@@ -11,18 +11,15 @@ Terraform is an open-source infrastructure as code software tool created by Hash
 
 ## Problem Statement
 
+### A 3-tier environment is a common setup
+
 _Note: Keep main and variable files different for each component_
 
 ## Solution
 
-### The Terraform resources will consists of following structure
+### The Terraform resources will consists of following Azure Component
 
-```
-├── main.tf                   // The primary entrypoint for terraform resources.
-├── vars.tf                   // It contain the declarations for variables.
-├── output.tf                 // It contain the declarations for outputs.
-├── terraform.tfvars          // The file to pass the terraform variables values.
-```
+<img width="660" alt="image" src="https://user-images.githubusercontent.com/51155706/215305150-5fe786a5-4e5e-4c0f-8a49-7051391f91af.png">
 
 ### Module
 
