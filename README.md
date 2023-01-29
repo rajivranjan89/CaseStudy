@@ -13,7 +13,7 @@ Terraform is an open-source infrastructure as code software tool created by Hash
 
 ### A 3-tier environment is a common setup
 
-_Note: Keep main and variable files different for each component_
+
 
 ## Solution
 
