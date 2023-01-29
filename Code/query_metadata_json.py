@@ -36,4 +36,8 @@ print(json.dumps(vm.as_dict(), indent=2))
 
 ### Retrieving instance metadata
 
-Invoke-RestMethod -Headers @{"Metadata"="true"} -Method GET -NoProxy -Uri "http://169.254.169.254/metadata/instance?api-version=2021-02-01" | ConvertTo-Json -Depth 64
+Invoke-RestMethod -Headers @{"Metadata"="true"} -Method GET  -Uri "http://169.254.169.254/metadata/instance?api-version=2021-02-01" | ConvertTo-Json
+
+curl -H Metadata:true http://169.254.169.254/metadata/instance?api-version=2017-03-01
+
+
