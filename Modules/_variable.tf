@@ -42,4 +42,5 @@ variable "managed_disk_type" {
 variable "ag_environment_type" {
 }
 
-
+variable "security_rule_base_priority " {
+}
