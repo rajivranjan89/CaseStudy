@@ -42,4 +42,9 @@ variable "managed_disk_type" {
 variable "ag_environment_type" {
 }
 
+variable "as_platform_update_domain_count" {
+}
+
+variable "as_platform_fault_domain_count" { 
+}
 
