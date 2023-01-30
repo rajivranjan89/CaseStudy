@@ -6,8 +6,8 @@ def get_key_value(obj, key):
 
 object = {"a":{"b":{"c":"d"}}}
 key = "a/b/c"
-print(get_value(object, key)) # Output: "d"
+print(get_key_value(object, key)) # Output: "d"
 
 object = {"x":{"y":{"z":"a"}}}
 key = "x/y/z"
-print(get_value(object, key)) # Output: "a"
+print(get_key_value(object, key)) # Output: "a"
