@@ -1,3 +1,4 @@
+# Define a Virtual Network and Subnet
 resource   "azurerm_virtual_network"   "myvnet"   { 
    name   =   "my-vnet" 
    address_space   =   [ "10.0.0.0/16" ] 
@@ -5,12 +6,14 @@ resource   "azurerm_virtual_network"   "myvnet"   {
    resource_group_name   =   var.resource_group_name
  } 
 
+
  resource   "azurerm_subnet"   "subnet1"   { 
    name   =   "testSubnet" 
    resource_group_name   =    var.resource_group_name 
    virtual_network_name   =   azurerm_virtual_network.myvnet.name 
    address_prefix   =   "10.0.1.0/22" 
  } 
+# Define a New Public IP Address
 
  resource   "azurerm_public_ip"   "publicip1"   { 
    name   =   "testpublicip1"
@@ -20,8 +23,18 @@ resource   "azurerm_virtual_network"   "myvnet"   {
    sku   =   "Basic" 
  } 
 
+resource   "azurerm_public_ip"   "publicip2"   { 
+   name   =   "testpublicip2"
+   location   =   var.primary_region 
+   resource_group_name   =   var.resource_group_name
+   allocation_method   =   "Dynamic" 
+   sku   =   "Basic" 
+ } 
+
+# Define a Network Interface for our VM
+
  resource   "azurerm_network_interface"   "myvm1nic"   { 
-   name   =    "${var.nicname}${count.index + 1 }"
+   name   =    "${var.webnicname}${count.index + 1 }"
    location   =   var.primary_region 
    resource_group_name   =   var.resource_group_name
  
@@ -30,6 +43,19 @@ resource   "azurerm_virtual_network"   "myvnet"   {
      subnet_id   =   azurerm_subnet.testSubnet.id 
      private_ip_address_allocation   =   "Dynamic" 
      public_ip_address_id   =   azurerm_public_ip.testpublicip1.id 
+   } 
+ }
+
+resource   "azurerm_network_interface"   "myvm2nic"   { 
+   name   =    "${var.sqlnicname}${count.index + 1 }"
+   location   =   var.primary_region 
+   resource_group_name   =   var.resource_group_name
+ 
+    ip_configuration   { 
+     name   =   "ipconfig2" 
+     subnet_id   =   azurerm_subnet.testSubnet.id 
+     private_ip_address_allocation   =   "Dynamic" 
+     public_ip_address_id   =   azurerm_public_ip.testpublicip2.id 
    } 
  }
 
@@ -48,7 +74,7 @@ resource   "azurerm_windows_virtual_machine"   "webvm"   {
    name                    =   "${var.hostname}${count.index + 1 }"
    location                =   var.primary_region 
    resource_group_name     =   var.resource_group_name
-   network_interface_ids   =   [ azurerm_network_interface.myvm 1 nic.id ] 
+   network_interface_ids   =   [ azurerm_network_interface.myvm1nic.id ] 
    size                    =   var.vm_size
    admin_username          =   var.vm_default_admin_username
    admin_password          =   random_string.password.result
@@ -70,7 +96,7 @@ resource   "azurerm_windows_virtual_machine"   "sqlvm"   {
   name                    =   "${var.hostname}${count.index + 1 }"
    location                =   var.primary_region 
    resource_group_name     =   var.resource_group_name
-   network_interface_ids   =   [element(azurerm_network_interface.*.id,count.index,)] 
+   network_interface_ids   =   [azurerm_network_interface.myvm2nic.id] 
    size                    =   var.vm_size
    admin_username          =   var.vm_default_admin_username
    admin_password          =   random_string.password.result
