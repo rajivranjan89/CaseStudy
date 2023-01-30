@@ -86,6 +86,6 @@ resource "azure_public_ip" "publicip1"
       http_listener_name = "test-listener"
       backend_http_settings_name = "test-backend-http"
       url_path_map_name = "test-url-path"
-      
+    } 
      
     
