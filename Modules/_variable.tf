@@ -44,3 +44,18 @@ variable "ag_environment_type" {
 
 variable "security_rule_base_priority " {
 }
+
+variable "primary_networking_resource_group_name" {
+}
+variable "primary_nsg_name" {
+}
+
+variable "hostname" {
+}
+
+variable "sqlnicname" {
+  default = "sqlnic"
+}
+variable "webnicname" {
+  default = "webnic"
+}
